@@ -1,0 +1,55 @@
+<div class="program-biaya">
+   <div class="col-md-10 col-md-offset-1" >
+      <h1>{{data.namaProgram}}</h1>
+      <br>
+      <pagedown-viewer class="lead rata" content="data.deskripsi"></pagedown-viewer>
+      <br>
+      <h4>Adapun macam-macam paket dari program ini adalah sebagai berikut</h4>
+      <div class="table-responsive" >
+         <table class="table table-bordered">
+            <thead style="background: #838383">
+               <tr>
+                  <th>Lama Belajar</th>
+                  <th>Deskripsi</th>
+                  <th>Biaya semula</th>
+                  <th>Biaya sekarang</th>
+                  <th>#</th>
+               </tr>
+            </thead>
+            <tbody ng-repeat = "paket in data.macamProgram">
+               <tr class="lead">
+                  <td>{{paket.lamaBelajar}}</td>
+                  <td>{{paket.deskrip | limitTo:45}}</td>
+                  <td style="color: red"><s>{{((16/100)*paket.biaya-(-paket.biaya)) | currency:"Rp. " : 0}}</s></td>
+                  <td style="color: green"><b>{{paket.biaya-500 | currency:"Rp. " : 0}}</b></td>
+
+                  <td>
+                     <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal" ng-click="getMacam(data._id, paket._id)">selengkapnya</button>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <p class="lead">Kami tunggu kedatangan temen-temen di Kampung Inggris Great ...</p>
+   </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">{{data.namaProgram}} paket {{macam.lamaBelajar}}</h3>
+      </div>
+      <div class="modal-body">
+         <p class="lead rata">{{macam.deskrip}}</p>
+         <p class="lead rata">Adapun biaya yang kami tawarkan dari {{data.namaProgram}} paket {{macam.lamaBelajar}} adalah sebesar <s>{{((16/100)*macam.biaya-(-macam.biaya)) | currency:"Rp." : 0}}</s>,  tetapi khusus kamu, kami beri potongan biaya, sehingga biaya yang kamu keluarkan sebesar <b>{{macam.biaya-500 | currency:"Rp." : 0}}</b>.</p>
+         <p class="lead rata">Tunggu apa lagi, yuk gabung bersama Kampung Inggris Great ...!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="kePandaftaran()" >Daftar Sekarang</button>
+      </div>
+   </div>
+  </div>
+</div>

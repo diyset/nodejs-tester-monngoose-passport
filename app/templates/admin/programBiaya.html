@@ -1,0 +1,121 @@
+<div ng-hide="tampil">	
+	<h2>Daftar Paket Program dan Biaya</h2>
+	<hr style="border: 2px solid">
+	<button class="btn btn-primary" ng-click="tambah()">Tambah Program Baru</button>
+	<hr>
+	<div ng-repeat = "program in programs">
+		<h3>{{program.namaProgram}}</h3>
+		<pagedown-viewer content="program.deskripsi"></pagedown-viewer>
+		<div>
+			<button class="btn btn-danger" ng-click="hapusProgram(program._id)">Delete</button>
+			<button class="btn btn-warning" ng-click="editProgram(program._id)">Edit</button>
+		</div>
+		<br>
+		<div class="table-responsive" >
+			<table class="table table-bordered table-striped">
+				<label>Pilihan Paket dari program keren</label>
+				<thead>
+					<tr>
+						<th>Lama Belajar</th>
+						<th>Deskripsi</th>
+						<th>Biaya</th>
+						<th><button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="tam(program._id)">tambah paket</button></th>
+					</tr>
+				</thead>
+				<tbody ng-repeat = "paket in program.macamProgram">
+					<tr>
+						<td>{{paket.lamaBelajar}}</td>
+						<td>{{paket.deskrip | limitTo:75}}</td>
+						<td>{{paket.biaya | currency:"Rp. " : 0}}</td>
+						<td>
+							<button class="btn btn-danger btn-sm" ng-click="hapusMacam(program._id, paket._id)">del</button>
+							<button class="btn btn-warning btn-sm" ng-click="getMacam(program._id, paket._id)" data-toggle="modal" data-target="#myModal">edit</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<hr style="border: 1px solid">
+	</div>
+</div>
+
+<div ng-show="tampil">
+	<button class="btn btn-default" ng-click="kembali()"><span class="glyphicon glyphicon-chevron-left"></span> kembali</button>
+	<h3 ng-hide="tampilubah">Tambah Program Baru</h3>
+	<h3 ng-show="tampilubah">Ubah nama program dan deskripsi program</h3>
+	<hr style="border: 1px solid">
+	<form class="form-group" name="validasi">
+		<b>Nama Program</b>
+		<input type="text" style="width: 50%" class="form-control" placeholder="nama program" name="nama" ng-model="data.namaProgram" ng-minlength="6" required>
+		<div>
+			<span class="valid" ng-show="validasi.nama.$error.required"><span class="glyphicon glyphicon-info-sign"></span> nama program tidak boleh kosong</span>
+			<span class="valid" ng-show="validasi.nama.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 6 karakter</span>
+		</div>
+		<br>
+		<b>Deskripsi</b>
+		<pagedown-editor name="mdInput" ng-model="data.deskripsi" help="showSomeHelp()" required></pagedown-editor>
+		<span class="valid" ng-show="validasi.mdInput.$error.required"><span class="glyphicon glyphicon-info-sign"></span> deskripsi tidak boleh kosong</span>
+		<br>
+		<button class="btn btn-default" ng-click="kembali()">Batal</button>
+		<button class="btn btn-primary" ng-hide="tampilubah" ng-disabled="validasi.$invalid" ng-click="tambahProgram(data)">Simpan Program</button>
+		<button class="btn btn-primary" ng-show="tampilubah" ng-disabled="validasi.$invalid" ng-click="updateProgram()">Simpan Perubahan</button>
+	</form>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 ng-hide="buka" class="modal-title">Tambah Paket Great</h4>
+        <h4 ng-show="buka" class="modal-title">Ubah Paket Great</h4>
+      </div>
+      <div class="modal-body">
+      	<div ng-show="sukses" class="alert alert-success">
+      		{{informasi}}
+      	</div>
+      	<div ng-show="gagal" class="alert alert-danger">
+      		{{infoerror}}
+      	</div>
+        <form class="form-horizontal" name="myForm">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">Lama Paket</label>
+            	<div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="lama paket" name="lamaBelajar" ng-model="macam.lamaBelajar" ng-minlength="5" required>
+            		<div>
+            			<span class="valid" ng-show="myForm.lamaBelajar.$error.required"><span class="glyphicon glyphicon-info-sign"></span> lama belajar tidak boleh kosong</span>
+            			<span class="valid" ng-show="myForm.lamaBelajar.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 5 karakter</span>
+            		</div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Deskripsi Paket</label>
+                <div class="col-sm-9">
+            		<textarea type="text" style="min-height: 250px;" class="form-control" name="deskrip" placeholder="deskripsi paket" ng-model="macam.deskrip" required></textarea> 
+            		<div>
+            			<span class="valid" ng-show="myForm.deskrip.$error.required"><span class="glyphicon glyphicon-info-sign"></span> deskripsi tidak boleh kosong</span>
+            		</div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Biaya</label>
+                <div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="biaya" name="biaya" ng-model="macam.biaya" pattern="[0-9]*" ng-minlength="5" ng-maxlength="10" required>
+            		<div>
+            			<span class="valid" ng-show="myForm.biaya.$error.required"><span class="glyphicon glyphicon-info-sign"></span> biaya tidak boleh kosong</span>
+            			<span class="valid" ng-show="myForm.biaya.$error.pattern"><span class="glyphicon glyphicon-info-sign"></span> isikan angka semua</span>
+            			<span class="valid" ng-show="myForm.biaya.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 5 karakter</span>
+            			<span class="valid" ng-show="myForm.biaya.$error.maxlength"><span class="glyphicon glyphicon-info-sign"></span> maksimal 10 karakter</span>
+            		</div>
+            	</div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" ng-hide="buka" class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="tambahMacam()" >Simpan</button>
+        <button type="button" ng-show="buka" class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="updateMacam()" >Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</div>

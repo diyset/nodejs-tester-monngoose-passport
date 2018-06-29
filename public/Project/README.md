@@ -1,0 +1,2 @@
+#Modal custom add image URL dialog
+This is an example how you can do a custom image modal for the image dialog in angular-pagedown with the angular-modal-service plugin from dwmkerr. It can be easy to add upload with a drop area in the modal.

@@ -1,0 +1,92 @@
+<div id="throbber" style="display:none; min-height:120px;"></div>
+<div id="noty-holder"></div>
+<div id="wrapper">
+    <!-- Navigation -->
+
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a ui-sref="." class="navbar-brand navadmin">
+                 <h3>GREAT</h3>
+            </a>
+        </div>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <li class="dropdown">
+                <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> 
+                  User <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a><b>{{currenUser.username}}</b></a></li>
+                  <br>
+                  <li ng-show="currenUser.status === 'Super Admin'"><a ui-sref=".tambahAdmin"><span class="glyphicon glyphicon-cog"></span> Tambah Admin</a></li>
+                  <li class="divider"></li>
+                  <li><a href="" ng-click="logout()"><span class="glyphicon glyphicon-off"></span> Keluar</a></li>
+                </ul>
+            </li>           
+        </ul>
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <div  class="profile">
+                  <div align="center" class="gmb">
+                      <img align="center" ng-src="public/template/img/logo great.png" alt="image" width="125" height="75">
+                  </div>
+                  <p align="center"> HAI<b> {{currenUser.nama | uppercase}}</b></p>
+                </div>
+                <li>
+                    <a ui-sref=".tampilanAwal" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <i class="glyphicon glyphicon-home"></i>  Ubah Tampilan Awal</a>
+                </li>
+                <li>
+                    <a ui-sref=".tentangGreat" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <i class="glyphicon glyphicon-usd"></i>  Ubah Tentang Great</a>
+                </li>
+                <li>
+                    <a ui-sref=".pendaftar" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <i class="glyphicon glyphicon-refresh"></i>  Data Pendaftar</a>
+                </li>
+                <li>
+                    <a ui-sref=".programBiaya" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <i class="glyphicon glyphicon-edit"></i>  Atur Paket & Biaya</a>
+                </li>
+                <li>
+                    <a ui-sref=".alumni" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <i class="glyphicon glyphicon-user"></i>  Data Alumni</a>
+                </li>
+                <!-- 
+                <li>
+                    <a href="" ><i class="glyphicon glyphicon-tag"></i>  Daftar Hutang</a>
+                </li> -->
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        </div>
+    </nav>
+    <div id="page-wrapper">
+          <div class="container-fluid lead">
+              <!-- Page Heading -->
+              <div class="row" id="main" >
+                  <div class="col-sm-12 col-md-12" id="content" ui-view>
+                    <h1>Wellcome Admin Kampung Inggris Great</h1>
+                    <hr style="border: 2px solid">
+                    <li>Atur Tampilan Website</li>
+                    <li>Ubah Deskripsi tentang Great</li>
+                    <li>Lihat Pendaftar</li>
+                    <li>Atur Paket Program Belajar dan Biaya</li>
+                    <hr style="border: 1px solid">
+                  </div>
+              </div>
+              <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+  </div>
+</div><!-- /#wrapper -->

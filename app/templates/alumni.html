@@ -1,0 +1,25 @@
+<div class="container">  
+  <div class="row">
+  <div class="col-md-offset-0" style="padding:20px; margin-top:30px;">
+  <p class="lead">Anda bisa menghubungi alumni untuk mendengarkan keseruan di <b>Kampung Inggris Great</b></p>
+  <input type="text" name="cari" ng-model="cari" class="form-control" style="width: 50%" placeholder="Cari Alumni">
+  <br>
+    <div class="col-md-3 lead" ng-repeat = "alumni in alumnis | orderBy:'-nama' | filter : cari">
+      <div class="thumbnail">
+          <h5>Nama : {{alumni.nama}}</h5>
+          <img ng-src="{{alumni.foto}}" alt="Pulpit Rock" style="width:100%; height: 175px">
+          <div class="caption">
+            <i>HP : {{alumni.telpon}}</i>
+            <p>bbm : {{alumni.bbm}} </p>
+          </div>
+      </div>
+    </div>
+    <h3 ng-if= !alumnis.length>Kami sedang menginputkan data Alumni</h3>
+  </div>
+  </div>
+</div>
+
+
+
+
+

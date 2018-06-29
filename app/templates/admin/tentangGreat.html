@@ -1,0 +1,34 @@
+<div ng-hide="editGreat">
+	<h2>Ubah Tengtang Great</h2>
+	<hr style="border: 2px solid">
+	<p>Halaman ini bertujuan untuk mengubah Deskripsi tentang Great yang seperti apa sih Great itu dan Kenapa Harus Great . . . !</p>
+	<hr>
+	<div class="row">
+		<div class="col-xs-6" ng-repeat="data in greats">
+			<h4>{{data.judul}} <button class="btn btn-primary" ng-click="editgreat(data._id)">Edit Tulisan</button></h4>
+			<img width="70%" height="175" ng-src="{{data.gambar}}" alt="">
+			<pagedown-viewer class="rata" content="data.deskripsi | limitTo:200"></pagedown-viewer>
+		</div>
+		 <button class="btn btn-primary" ng-show="!greats.length" ng-click="bukamodal()">tambah</button>
+	</div>
+</div>
+
+ <div ng-show="editGreat">
+	<h3 class="modal-title">Ubah Tentang Great</h3>
+	<h6 class="modal-title">Maksimal Ukuran gambar 3 Mb</h6>
+	<hr>
+	<form>
+		<input  ng-show="!greats.length" type="text" name="" class="form-control"  ng-model="doc.judul">
+		<h4>{{doc.judul}}</h4>
+		<button class="btn btn-default" ng-click="pilih()">pilih gambar</button>
+		<img class="img-responsive" width="35%" ng-src="{{doc.gambar}}" alt="klik pilih photo">
+		<br>
+		<pagedown-editor name="mdInput" ng-model="doc.deskripsi" help="showSomeHelp()"></pagedown-editor>
+	</form>
+	<br>
+	<div>
+		<button type="button" class="btn btn-default" ng-click="keluar()">Batal</button>
+		<button type="button" class="btn btn-primary" ng-show="!greats.length" ng-click="tambahgreat()" data-dismiss="modal">Simpan</button>
+		<button type="button" class="btn btn-primary" ng-click="updategreat()" data-dismiss="modal">Simpan Perubahan</button>
+	</div>
+</div>

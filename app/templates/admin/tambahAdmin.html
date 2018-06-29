@@ -1,0 +1,136 @@
+<div>
+	<h2>Data Admin</h2>
+	<hr style="border: 2px solid">
+	<form class="form-inline">
+		<div class="form-group">
+  		<button class="btn btn-primary col-sm-6" data-toggle="modal" data-target="#myModal" ng-click="bukaModal()">Tambah Admin</button>
+  		<div class="col-sm-3">
+  			<input type="text" placeholder="Cari Admin" class="form-control" ng-model="cari">
+  		</div>
+		</div>	
+    <br>
+	</form>
+	<hr>
+	<div class="table-responsive">
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nama</th>
+					<th>Username</th>
+					<th>No Telphon</th>
+					<th>Password</th>
+          <th>Status Admin</th>
+					<th>Aksi</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="admin in admins | filter : cari">
+					<td>{{admin.nama}}</td>
+					<td>{{admin.username}}</td>
+					<td>{{admin.phone}}</td>
+					<td>{{admin.password}}</td>
+          <td>{{admin.status}}</td>
+					<td>
+						<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModalhapus" ng-click="del(admin._id)">del</button>
+						<button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#myModal" ng-click="editadmin(admin._id)">edit</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 ng-show="tampil" class="modal-title">Tambah Admin Great</h4>
+        <h4 ng-hide="tampil" class="modal-title">Ubah Admin Great</h4>
+      </div>
+      <div class="modal-body">
+      	<div ng-show="sukses" class="alert alert-success">
+      		{{informasi}}
+      	</div>
+      	<div ng-show="gagal" class="alert alert-danger">
+      		{{infoerror}}
+      	</div>
+        <form class="form-horizontal" name="validasi">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">Nama</label>
+            	<div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="nama" name="nama" ng-model="admin.nama" ng-maxlength="20" required>
+                <div>
+                  <span class="valid" ng-show="validasi.nama.$error.required"><span class="glyphicon glyphicon-info-sign"></span> nama tidak boleh kosong</span>
+                  <span class="valid" ng-show="validasi.nama.$error.maxlength"><span class="glyphicon glyphicon-info-sign"></span> maksimal 20 karakter</span>    
+                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Username</label>
+                <div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="username" name="username" ng-model="admin.username" ng-minlength="3" ng-maxlength="15" required>
+                <div>
+                  <span class="valid" ng-show="validasi.username.$error.required"><span class="glyphicon glyphicon-info-sign"></span> username tidak boleh kosong</span>
+                  <span class="valid" ng-show="validasi.username.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 3 karakter</span>
+                  <span class="valid" ng-show="validasi.username.$error.maxlength"><span class="glyphicon glyphicon-info-sign"></span> maksimal 15 karakter</span>
+                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">No telpon</label>
+                <div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="no telpon" name="phone" ng-model="admin.phone" pattern="[0-9]*" ng-minlength="8" ng-maxlength="14" required>
+                <div>
+                  <span class="valid" ng-show="validasi.phone.$error.required"><span class="glyphicon glyphicon-info-sign"></span> no telpon tidak boleh kosong</span>
+                  <span class="valid" ng-show="validasi.phone.$error.pattern"><span class="glyphicon glyphicon-info-sign"></span> penulisan no telpon salah</span>
+                  <span class="valid" ng-show="validasi.phone.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> manimal 8 nomor</span>
+                  <span class="valid" ng-show="validasi.phone.$error.maxlength"><span class="glyphicon glyphicon-info-sign"></span> maksimal 14 nomor</span>
+                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+            		<input type="password" class="form-control" placeholder="password" name="password" ng-model="admin.password" ng-minlength="5" required>
+                <div role="alert">
+                  <span class="valid" ng-show="validasi.password.$error.required"><span class="glyphicon glyphicon-info-sign"></span> password tidak boleh kosong</span>
+                  <span class="valid" ng-show="validasi.password.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 5 karakter</span>
+                </div>
+            	</div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Pilih Status</label>
+                 <div class="col-sm-9">
+                  <select class="form-control" name="status" ng-model="admin.status" required>
+                    <option>Admin Biasa</option>
+                    <option>Super Admin</option>
+                  </select>
+                  <span class="valid" ng-show="validasi.status.$error.required"><span class="glyphicon glyphicon-info-sign"></span> pilih status</span>
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button ng-show="tampil" type="button" class="btn btn-primary" ng-disabled="validasi.$invalid" ng-click="tambahAdmin(admin)">Simpan</button>
+        <button ng-hide="tampil" type="button" class="btn btn-primary" ng-disabled="validasi.$invalid" ng-click="updateadmin(admin)">Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModalhapus" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Data admin akan terhapus jika klik Oke</h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" ng-click="hapus()" data-dismiss="modal"> Oke</button>
+      </div>
+    </div>
+  </div>
+</div>

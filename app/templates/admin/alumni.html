@@ -1,0 +1,96 @@
+<div>
+	<h2>Data Alumni</h2>
+	<hr style="border: 2px solid">
+	<form class="form-inline">
+		<div class="form-group">
+  		<button class="btn btn-primary col-sm-6" data-toggle="modal" data-target="#myModal" ng-click="bukaModal()">Tambah Alumni</button>
+  		<div class="col-sm-3">
+  			<input type="text" placeholder="Cari Alumni" class="form-control" ng-model="cari">
+  		</div>
+		</div>	
+    <br>
+	</form>
+	<br>
+	<div class="col-md-3" ng-repeat="alumni in alumnis | filter : cari">
+	  <div class="thumbnail">
+	  	<h5>Nama : {{alumni.nama}}</h5>
+	    <img style="width: 100%; height: 150px" ng-src="{{alumni.foto}}" alt="Pulpit Rock">
+	    <div class="caption">	
+	        <i>HP : {{alumni.telpon}}</i>
+	        <p>bbm : {{alumni.bbm}} </p>
+	    </div>
+	    <hr style="margin:5px; border: 1px solid">
+		<div align="right">
+		    <button class="btn btn-danger" ng-click="hapusAlumni(alumni._id)">hapus</button>
+		    <button class="btn btn-warning" data-toggle="modal" data-target="#myModal" ng-click="getAlumni(alumni._id)">edit</button>
+		</div>
+	  </div>
+	</div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 ng-hide="buka" class="modal-title">Tambah Alumni Baru</h4>
+        <h4 ng-show="buka" class="modal-title">Ubah Alumni</h4>
+      </div>
+      <div class="modal-body">
+      	<div ng-show="sukses" class="alert alert-success">
+      		{{informasi}}
+      	</div>
+      	<div ng-show="gagal" class="alert alert-danger">
+      		{{infoerror}}
+      	</div>
+        <form class="form-horizontal" name="myForm">
+        	<div class="form-group">
+            	<label class="col-sm-3 control-label">Nama</label>
+            	<div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="nama" name="nama" ng-model="alumni.nama" ng-minlength="3" required ng-click="hilang()">
+            		<div>
+            			<span class="valid" ng-show="myForm.nama.$error.required"><span class="glyphicon glyphicon-info-sign"></span> nama tidak boleh kosong</span>
+            			<span class="valid" ng-show="myForm.nama.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 3 karakter</span>
+            		</div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Pilih Photo</label>
+            	<div class="col-sm-9">
+            		<button class="btn btn-default" ng-click="pilih()">pilih gambar</button>
+            		<br>
+					<img height="150" width="150" ng-src="{{alumni.foto}}" alt="klik pilih photo">
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">Telpon/HP</label>
+                <div class="col-sm-9">
+            		<input type="text" class="form-control" name="telpon" placeholder="telpon/HP" ng-model="alumni.telpon" pattern="[0-9]*" ng-minlength="8" ng-maxlength="14" required>
+            		<div>
+            			<span class="valid" ng-show="myForm.telpon.$error.required"><span class="glyphicon glyphicon-info-sign"></span> Telpon/HP tidak boleh kosong</span>
+            			<span class="valid" ng-show="myForm.telpon.$error.pattern"><span class="glyphicon glyphicon-info-sign"></span> isikan angka semua</span>
+            			<span class="valid" ng-show="myForm.telpon.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 8 karakter</span>
+            			<span class="valid" ng-show="myForm.telpon.$error.maxlength"><span class="glyphicon glyphicon-info-sign"></span> maksimal 14 karakter</span>
+            		</div>
+            	</div>
+            </div>
+            <div class="form-group">
+            	<label class="col-sm-3 control-label">BBM</label>
+                <div class="col-sm-9">
+            		<input type="text" class="form-control" placeholder="Pin BBM" name="bbm" ng-model="alumni.bbm" ng-minlength="8" ng-maxlength="8">
+            		<div>
+            			<span class="valid" ng-show="myForm.bbm.$error.minlength"><span class="glyphicon glyphicon-info-sign"></span> minimal 8 karakter</span>
+            			<span class="valid" ng-show="myForm.bbm.$error.maxlength"><span class="glyphicon glyphicon-info-sign"></span> maksimal 8 karakter</span>
+            		</div>
+            	</div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" ng-hide="buka" class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="tambahAlumni()" >Simpan</button>
+        <button type="button" ng-show="buka" class="btn btn-primary" ng-disabled="myForm.$invalid" ng-click="updateAlumni()" >Simpan Perubahan</button>
+      </div>
+    </div>
+  </div>
+</div>
